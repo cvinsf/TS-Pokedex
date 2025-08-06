@@ -1,4 +1,7 @@
-export {};
+"use strict";
+// import { startREPL } from "../repl.js";
+// import { Readable, Writable } from "stream";
+// import { describe, test, expect } from "vitest";
 // test("startREPL handles user input", () => {
 //   const mockInput = new Readable({
 //     read() {
