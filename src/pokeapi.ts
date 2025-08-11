@@ -1,19 +1,31 @@
+import { Cache } from "./pokecache.js";
+
 export class PokeAPI {
     private static readonly baseURL = "https://pokeapi.co/api/v2";
+    private mapData = new Cache(6000);
 
     constructor() {}
 
     async fetchLocations(pageURL?: string): Promise<ShallowLocations> {
+      const url = pageURL || `${PokeAPI.baseURL}/location-area`;
+
+      const cachedData = this.mapData.get<ShallowLocations>(url);
+
+      if (cachedData) {
+        return cachedData;
+      }
+
         try {
-            const url = pageURL || `${PokeAPI.baseURL}/location-area`;
             const response = await fetch(url);
 
             if (!response.ok) {
-                throw new Error(`Failed to fetch locations: ${response.status}`);
-            }
+              throw new Error(`Failed to fetch locations from ${url}: ${response.status}`);            }
 
             const data: ShallowLocations = await response.json();
+
+            this.mapData.add(url, data)
             return data;
+
         } catch (err) {
             console.error("Error in fetchLocations:", err);
             throw err;
@@ -42,32 +54,67 @@ export class PokeAPI {
 }
 
 export type ShallowLocations = {
-    results: { name: string; url: string }[];
-    next: string | null;
-    previous: string | null;
+    count: number;
+    next: string;
+    previous: string;
+    results: {
+        name: string;
+        url: string;
+    }[];
 }
 
 export type Location = {
-    id: number;
+  encounter_method_rates: {
+    encounter_method: {
+      name: string;
+      url: string;
+    };
+    version_details: {
+      rate: number;
+      version: {
+        name: string;
+        url: string;
+      };
+    }[];
+  }[];
+  game_index: number;
+  id: number;
+  location: {
     name: string;
-    region: { name: string; url: string };
-    names: { name: string; language: { name: string; url: string } }[];
+    url: string;
+  };
+  name: string;
+  names: {
+    language: {
+      name: string;
+      url: string;
+    };
+    name: string;
+  }[];
+  pokemon_encounters: {
+    pokemon: {
+      name: string;
+      url: string;
+    };
+    version_details: {
+      encounter_details: {
+        chance: number;
+        condition_values: any[];
+        max_level: number;
+        method: {
+          name: string;
+          url: string;
+        };
+        min_level: number;
+      }[];
+      max_chance: number;
+      version: {
+        name: string;
+        url: string;
+      };
+    }[];
+  }[];
 };
 
-const myTest = new PokeAPI();
 
-async function testFetchLocations() {
-    console.log("Fetching first batch of locations...");
-    const locations = await myTest.fetchLocations(); // Fetch without pageURL
-    console.log(locations);
 
-    if (locations.next) {
-        console.log("Fetching next batch of locations...");
-        const nextLocations = await myTest.fetchLocations(locations.next); // Fetch with next URL
-        console.log(nextLocations);
-    }
-}
-
-(async () => {
-    await testFetchLocations();
-})();

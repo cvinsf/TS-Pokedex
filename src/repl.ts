@@ -3,7 +3,7 @@ import type { State } from './state.js';
 export async function startREPL(state: State) {
     const { readline, commands, api, nextLocationsURL, prevLocationsURL } = state;
     readline.prompt();
-    readline.on("line", (input) => {
+    readline.on("line", async (input) => {
         if (!input) {
             readline.prompt();
             return;
@@ -12,7 +12,7 @@ export async function startREPL(state: State) {
 
         if (commands.hasOwnProperty(command)) {
             try {
-                commands[command].callback(state);
+                await commands[command].callback(state);
             } catch (err) {
                 console.error("Error:", err);
             }

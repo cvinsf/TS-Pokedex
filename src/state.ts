@@ -31,7 +31,7 @@ export function initState() {
         readline: rl,
         commands: getCommands(),
         api: newPokedex,
-        nextLocationsURL,
+        nextLocationsURL: "https://pokeapi.co/api/v2/location-area",
         prevLocationsURL,
 
     }

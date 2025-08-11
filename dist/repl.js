@@ -1,7 +1,7 @@
 export async function startREPL(state) {
-    const { readline, commands } = state;
+    const { readline, commands, api, nextLocationsURL, prevLocationsURL } = state;
     readline.prompt();
-    readline.on("line", (input) => {
+    readline.on("line", async (input) => {
         if (!input) {
             readline.prompt();
             return;
@@ -9,7 +9,7 @@ export async function startREPL(state) {
         const command = cleanInput(input)[0];
         if (commands.hasOwnProperty(command)) {
             try {
-                commands[command].callback(state);
+                await commands[command].callback(state);
             }
             catch (err) {
                 console.error("Error:", err);
