@@ -1,7 +1,7 @@
 import type { State } from './state.js';
 
-export function startREPL(state: State) {
-    const { readline, commands } = state;
+export async function startREPL(state: State) {
+    const { readline, commands, api, nextLocationsURL, prevLocationsURL } = state;
     readline.prompt();
     readline.on("line", (input) => {
         if (!input) {

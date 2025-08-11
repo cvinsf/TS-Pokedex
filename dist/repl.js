@@ -1,4 +1,4 @@
-export function startREPL(state) {
+export async function startREPL(state) {
     const { readline, commands } = state;
     readline.prompt();
     readline.on("line", (input) => {
