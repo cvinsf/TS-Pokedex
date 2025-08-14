@@ -33,8 +33,14 @@ export class PokeAPI {
     }
 
     async fetchLocation(locationName: string): Promise<Location> {
+      const url = `${PokeAPI.baseURL}/location-area/${locationName}`
+
+      const cachedData = this.mapData.get<Location>(url);
+      if (cachedData) {
+        console.log(`Cached Data has been found: ${locationName}`);
+        return cachedData;
+      }
         try {
-            const url = `${PokeAPI.baseURL}/location-area/${locationName}`
             const response = await fetch(url);
 
             if (!response.ok) {
@@ -42,6 +48,8 @@ export class PokeAPI {
             }
 
             const data: Location = await response.json();
+            this.mapData.add(url, data);
+
             return data;
 
 

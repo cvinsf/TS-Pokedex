@@ -1,4 +1,5 @@
 import type { State } from './state.js';
+import { exploreMap } from './command-registry/command_explore.js';
 
 export async function startREPL(state: State) {
     const { readline, commands, api, nextLocationsURL, prevLocationsURL } = state;
@@ -8,11 +9,17 @@ export async function startREPL(state: State) {
             readline.prompt();
             return;
         }
-        const command = cleanInput(input)[0];
+        const cleanedInput = cleanInput(input);
+        const command = cleanedInput[0];
 
         if (commands.hasOwnProperty(command)) {
             try {
-                await commands[command].callback(state);
+                if (command === "explore") {
+                    const location = cleanedInput[1] || "";
+                    await exploreMap(location, state);
+                } else {
+                    await commands[command].callback(state);
+                }
             } catch (err) {
                 console.error("Error:", err);
             }
