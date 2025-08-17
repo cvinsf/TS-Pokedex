@@ -16,5 +16,6 @@ export function initState() {
         api: newPokedex,
         nextLocationsURL: "https://pokeapi.co/api/v2/location-area",
         prevLocationsURL,
+        caughtPokemon: {},
     };
 }

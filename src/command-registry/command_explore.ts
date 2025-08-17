@@ -16,8 +16,9 @@ export async function exploreMap(location: string, state: State): Promise<void> 
         if (pokemonList.length === 0) {
             console.log(`No Pokemon found in ${location}`);
         } else {
-            console.log(`Exploring ${location}`);
-            pokemonList.forEach(pokemon => console.log(pokemon))
+            console.log(`Exploring ${location}...`);
+            console.log("Found Pokemon: ")
+            pokemonList.forEach(pokemon => console.log(`- ${pokemon}`))
         }
 
     } catch (error: unknown) {

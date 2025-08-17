@@ -15,7 +15,7 @@ describe('Cache Class', () => {
         const key = "testKey";
         const value = { name: "pikachu" };
         cache.add(key, value);
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const cachedValue = cache.get(key);
         expect(cachedValue).toBeUndefined();
     });

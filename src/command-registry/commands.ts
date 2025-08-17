@@ -1,9 +1,7 @@
-import type { CLICommand } from "src/state.js";
+import type { CLICommand, State } from "../state.js";
 import { commandExit } from "./command_exit.js";
 import { commandHelp } from "./command_help.js";
 import { callMap, mapBack } from "./command_map.js"
-import { exploreMap } from "./command_explore.js";
-import type { State } from "src/state.js";
 
 export function getCommands(): Record<string, CLICommand> {
   return {
@@ -33,6 +31,29 @@ export function getCommands(): Record<string, CLICommand> {
       callback: async (state: State) => {
     console.log("Usage: explore <location-name>");
     console.log("Example: explore canalave-city-area");
+      }
+    },
+    catch: {
+      name: "catch",
+      description: "Throw a pokeball and attempt to catch a pokemon!",
+      callback: async(state: State) => {
+        console.log("Usage: catch <pokemon> --> simulates catching a pokemon");
+        console.log("Example: catch pikachu");
+      }
+    },
+    inspect: {
+      name: "inspect",
+      description: "Inspects a pokemon that has been caught.",
+      callback: async(state: State) => {
+        console.log("Usage: inspect <pokemon>");
+        console.log("Example: inspect pikachu");
+      }
+    },
+    pokedex: {
+      name: "pokedex",
+      description: "Shows all pokemon user has captured.",
+      callback: async (state: State) => {
+        console.log("Usage: pokedex");
       }
     }
   }

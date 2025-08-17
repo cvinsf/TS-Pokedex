@@ -22,6 +22,37 @@ export function getCommands() {
             name: "mapb",
             description: "Display the previous 20 locations after having called map.",
             callback: mapBack,
+        },
+        explore: {
+            name: "explore",
+            description: "Explore a named area the user requested. Returns all Pokemon in that area.",
+            callback: async (state) => {
+                console.log("Usage: explore <location-name>");
+                console.log("Example: explore canalave-city-area");
+            }
+        },
+        catch: {
+            name: "catch",
+            description: "Throw a pokeball and attempt to catch a pokemon!",
+            callback: async (state) => {
+                console.log("Usage: catch <pokemon> --> simulates catching a pokemon");
+                console.log("Example: catch pikachu");
+            }
+        },
+        inspect: {
+            name: "inspect",
+            description: "Inspects a pokemon that has been caught.",
+            callback: async (state) => {
+                console.log("Usage: inspect <pokemon>");
+                console.log("Example: inspect pikachu");
+            }
+        },
+        pokedex: {
+            name: "pokedex",
+            description: "Shows all pokemon user has captured.",
+            callback: async (state) => {
+                console.log("Usage: pokedex");
+            }
         }
     };
 }
